@@ -16,33 +16,31 @@ exports.checktransactions = async () => {
     }
 
     //loop through array asign a delay
+
     Sendbotstats.forEach(async (u, i) => {
       //construct message
 
       setTimeout(async () => {
-        message = `${i} Name: ${u.MARKETER_NAME}  Billed PoP : ${
+        message = `Name: ${u.MARKETER_NAME}  Billed PoP : ${
           u.billed_pop
-        } Paid Pop: ${u.paid_pop} CC: ${Math.ceil(
+        } Paid Pop: ${u.paid_pop} CC: ${Math.round(
           (u.paid_pop / u.billed_pop) * 100
         )}%  Billed Amount: ${u.billed_amt
           .toFixed(2)
           .replace(/\d(?=(\d{3})+\.)/g, "$&,")} Paid Amount: ${u.paid_amt
           .toFixed(2)
-          .replace(/\d(?=(\d{3})+\.)/g, "$&,")} CE:${Math.ceil(
+          .replace(/\d(?=(\d{3})+\.)/g, "$&,")} CE:${Math.round(
           (u.paid_amt / u.billed_amt) * 100
-        )}%   Date:${dateFormat(u.createdAt, " mmmm, yyyy")} `;
+        )}%   Date:${dateFormat(u.createdAt, " d,mmmm, yyyy")} `;
         //adding zeros to make id 5 digit
         //let staffid = pad(u.STAFF_ID, 5);
 
-        console.log(staffid, message);
-        /*
         //send transaction to telegram bolt
 
         let sentransaction = await sendtransactions({
           staffid,
           message,
         });
-        */
       }, i * 1000);
     });
   } catch (err) {
