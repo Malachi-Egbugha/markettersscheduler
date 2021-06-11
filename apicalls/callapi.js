@@ -25,7 +25,7 @@ exports.sendtransactions = async (body) => {
     const config = {
       headers: {
         Accept: "application/json",
-        "access-token": `${process.env.ACCESSTOKEN}`,
+        "access-token": `${process.env.BOLTTOKEN}`,
       },
     };
     //console.log(SENDTRANSACTIONS);

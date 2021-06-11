@@ -2,7 +2,7 @@ const { stats, sendtransactions } = require("./../apicalls/callapi");
 var dateFormat = require("dateformat");
 exports.checktransactions = async () => {
   try {
-    let staffid = "01020";
+    let staffid = "";
     let message = "";
     let transactioninfo = await stats();
     //store number of  transaction variable from transaction api
@@ -21,20 +21,24 @@ exports.checktransactions = async () => {
       //construct message
 
       setTimeout(async () => {
-        message = `Name: ${u.MARKETER_NAME}  Billed PoP : ${
+        message = `Staff Name: ${u.MARKETER_NAME}\nDSS Name:${
+          u.transformer
+        }\nDSS ID:${u.transformer_code}\nBilled Population : ${
           u.billed_pop
-        } Paid Pop: ${u.paid_pop} CC: ${Math.round(
+        }\nPaid Population: ${u.paid_pop}\nCollection Coverage: ${Math.round(
           (u.paid_pop / u.billed_pop) * 100
-        )}%  Billed Amount: ${u.billed_amt
+        )}%\nBilled Amount: ${u.billed_amt
           .toFixed(2)
-          .replace(/\d(?=(\d{3})+\.)/g, "$&,")} Paid Amount: ${u.paid_amt
+          .replace(/\d(?=(\d{3})+\.)/g, "$&,")}\nPaid Amount: ${u.paid_amt
           .toFixed(2)
-          .replace(/\d(?=(\d{3})+\.)/g, "$&,")} CE:${Math.round(
+          .replace(
+            /\d(?=(\d{3})+\.)/g,
+            "$&,"
+          )}\nCollection Efficiency:${Math.round(
           (u.paid_amt / u.billed_amt) * 100
-        )}%   Date:${dateFormat(u.createdAt, " d,mmmm, yyyy")} `;
+        )}% \nDate:${dateFormat(u.createdAt, " d,mmmm, yyyy")}  `;
         //adding zeros to make id 5 digit
-        //let staffid = pad(u.STAFF_ID, 5);
-
+        let staffid = pad(u.STAFF_ID, 5);
         //send transaction to telegram bolt
 
         let sentransaction = await sendtransactions({
